@@ -67,3 +67,22 @@ body {
 .login-btn:hover {
   background: linear-gradient(to right, #240b36, #c31432);
 }
+
+.text {
+  font-size: 12px;
+  color: slategray;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.btnswitch {
+  background: none;
+  border: none;
+  color: crimson;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  margin-top: 5px;
+  text-decoration: underline;
+}

@@ -9,12 +9,15 @@ import "./App.css";
 function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [register, setRegister] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const endpoint = register ? "register" : "login"; // Cambia dependiendo del modo
+
     try {
-      const response = await fetch("http://127.0.0.1:8000/login", {
+      const response = await fetch(`http://127.0.0.1:8000/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,10 +31,14 @@ function App() {
         throw new Error(data.detail);
       }
 
-      alert("Bienvenido! Token: " + data.token);
-      // Aquí puedes guardar el token o redirigir
+      if (register) {
+        alert("Usuario registrado exitosamente!");
+        setRegister(false); // Después de registrar, regresar a login
+      } else {
+        alert("Bienvenido! Token: " + data.token);
+      }
     } catch (error: any) {
-      alert("Error de login: " + error.message);
+      alert("Error: " + error.message);
     }
   };
 
@@ -63,9 +70,15 @@ function App() {
           Forgot your password?
         </a>
         <button type="submit" className="login-btn">
-          Login
+          {register ? "Register" : "Login"}
         </button>
       </form>
+      <h5 className="text">
+        {register ? "Si ya tienes cuenta" : "Si no tienes cuenta"}
+        <button onClick={() => setRegister(!register)} className="btnswitch">
+          {register ? "Inicia sesion" : "Registrate"}
+        </button>
+      </h5>
     </div>
   );
 }
