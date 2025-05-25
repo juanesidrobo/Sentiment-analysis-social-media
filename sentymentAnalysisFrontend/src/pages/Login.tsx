@@ -9,9 +9,8 @@ function Login() {
     try {
       const result = await login({ username, password });
       saveToken(result.token);
+      navigate("/sentimentAnaylisis");
       alert("Bienvenido! Token: " + result.token);
-      // Here you would typically redirect to a protected page
-      // navigate('/dashboard');
     } catch (error: any) {
       throw error;
     }

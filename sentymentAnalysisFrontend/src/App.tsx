@@ -114,7 +114,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import sentimentAnalysis from "";
+import Navigationtest from "./pages/sentimentAnalysis";
 import "./App.css";
 import { isAuthenticated } from "./services/auth";
 
@@ -124,7 +124,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/SentimentAnalysis" element={<></>} />
+        <Route path="/sentimentAnaylisis" element={<Navigationtest />} />
 
         {/* Redirect to login from root */}
         <Route path="/" element={<Navigate to="/login" replace />} />
