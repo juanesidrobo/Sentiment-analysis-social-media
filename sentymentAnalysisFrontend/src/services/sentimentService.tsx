@@ -7,9 +7,10 @@ export interface SentimentRequest {
 export interface SentimentResponse {
   text: string;
   sentiment: string;
-  polarity: number;
-  subjectivity: number;
-  confidence: string;
+  confidence: number;      // Cambiar a number
+  method: string;          // Agregar method
+  polarity?: number;       // Opcional
+  subjectivity?: number;   // Opcional
 }
 
 export interface SentimentAnalysisService {
@@ -57,7 +58,7 @@ class SentimentService implements SentimentAnalysisService {
 
     const requestData: SentimentRequest = { text };
 
-    return this.makeRequest<SentimentResponse>("/sentimentAnaylisis/", {
+    return this.makeRequest<SentimentResponse>("/sentiment/analyze", {
       method: "POST",
       body: JSON.stringify(requestData),
     });

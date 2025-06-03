@@ -9,7 +9,7 @@ function Login() {
     try {
       const result = await login({ username, password });
       saveToken(result.token);
-      navigate("/sentimentAnaylisis");
+      navigate("/sentiment-analysis"); // Corregir la ruta
       alert("Bienvenido! Token: " + result.token);
     } catch (error: any) {
       throw error;

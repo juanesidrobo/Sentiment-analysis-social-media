@@ -24,19 +24,6 @@ const SentimentAnalysisPage: React.FC = () => {
     }
   };
 
-  const getConfidenceColor = (confidence: string): string => {
-    switch (confidence.toLowerCase()) {
-      case "high":
-        return "#4CAF50";
-      case "medium":
-        return "#FF9800";
-      case "low":
-        return "#F44336";
-      default:
-        return "#2196F3";
-    }
-  };
-
   const handleAnalyze = async (text: string) => {
     setError(null);
     setResult(null);
@@ -80,51 +67,74 @@ const SentimentAnalysisPage: React.FC = () => {
                   className="sentiment-label"
                   style={{ color: getSentimentColor(result.sentiment) }}
                 >
-                  {result.sentiment} ({result.polarity.toFixed(2)})
+                  {result.sentiment.toUpperCase()} ({(result.confidence * 100).toFixed(1)}%)
                 </h2>
               </div>
 
               <div className="metrics-grid">
                 <div className="metric-item">
-                  <span className="metric-label">Polarity:</span>
+                  <span className="metric-label">Sentiment:</span>
                   <span className="metric-value">
-                    {result.polarity.toFixed(3)}
-                  </span>
-                </div>
-
-                <div className="metric-item">
-                  <span className="metric-label">Subjectivity:</span>
-                  <span className="metric-value">
-                    {result.subjectivity.toFixed(3)}
+                    {result.sentiment}
                   </span>
                 </div>
 
                 <div className="metric-item">
                   <span className="metric-label">Confidence:</span>
-                  <span
-                    className="metric-value confidence"
-                    style={{ color: getConfidenceColor(result.confidence) }}
-                  >
-                    {result.confidence}
+                  <span className="metric-value">
+                    {(result.confidence * 100).toFixed(1)}%
                   </span>
                 </div>
+
+                <div className="metric-item">
+                  <span className="metric-label">Method:</span>
+                  <span className="metric-value">
+                    {result.method}
+                  </span>
+                </div>
+
+                {/* Solo mostrar polarity y subjectivity si existen */}
+                {result.polarity !== undefined && (
+                  <div className="metric-item">
+                    <span className="metric-label">Polarity:</span>
+                    <span className="metric-value">
+                      {result.polarity.toFixed(3)}
+                    </span>
+                  </div>
+                )}
+
+                {result.subjectivity !== undefined && (
+                  <div className="metric-item">
+                    <span className="metric-label">Subjectivity:</span>
+                    <span className="metric-value">
+                      {result.subjectivity.toFixed(3)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="analysis-explanation">
                 <h3>Analysis Details:</h3>
                 <ul>
                   <li>
-                    <strong>Polarity:</strong> Ranges from -1 (most negative) to
-                    1 (most positive)
+                    <strong>Sentiment:</strong> {result.sentiment} - Overall emotional tone
                   </li>
                   <li>
-                    <strong>Subjectivity:</strong> Ranges from 0 (objective) to
-                    1 (subjective)
+                    <strong>Confidence:</strong> {(result.confidence * 100).toFixed(1)}% - How certain the model is
                   </li>
                   <li>
-                    <strong>Confidence:</strong> Based on the strength of the
-                    sentiment polarity
+                    <strong>Method:</strong> {result.method} - Analysis technique used
                   </li>
+                  {result.polarity !== undefined && (
+                    <li>
+                      <strong>Polarity:</strong> Ranges from -1 (most negative) to 1 (most positive)
+                    </li>
+                  )}
+                  {result.subjectivity !== undefined && (
+                    <li>
+                      <strong>Subjectivity:</strong> Ranges from 0 (objective) to 1 (subjective)
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

@@ -22,7 +22,9 @@ body {
 
 /* Tarjeta expandida cuando hay resultados */
 .sentiment-analysis-card.expanded-card {
+  margin-top: 1rem;
   max-width: 700px; /* Ancho mayor para resultados */
+  
 }
 
 /* Ajustar métricas para pantallas pequeñas */
@@ -76,6 +78,7 @@ body {
   margin-bottom: 1.25rem;
   background-color: #f9f9f9;
   transition: border-color 0.3s ease;
+  color: #000;
 }
 
 .text-input:focus {
@@ -143,6 +146,7 @@ body {
 }
 
 .metric-item {
+  display: grid;
   background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 0.75rem;
@@ -157,7 +161,7 @@ body {
 
 .metric-value {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   color: #212121;
   margin-top: 0.25rem;
 }
