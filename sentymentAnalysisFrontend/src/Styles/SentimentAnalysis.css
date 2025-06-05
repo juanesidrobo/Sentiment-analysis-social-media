@@ -3,9 +3,19 @@ body {
   font-family: "Segoe UI", sans-serif;
   background: linear-gradient(to right, #c31432, #240b36);
   min-height: 100vh;
+  overflow: hidden; /* Evitar scroll del body */
+}
+
+/* Contenedor principal - centrado y sin desbordamiento */
+.sentiment-analysis-container {
+  width: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto; /* Scroll solo si es necesario */
 }
 
 /* Card general */
@@ -15,35 +25,19 @@ body {
   border-radius: 12px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 400px; /* Tamaño inicial */
+  max-width: 600px;
   text-align: center;
-  transition: max-width 0.3s ease; /* Animación suave */
+  transition: all 0.3s ease;
+  /* Permitir que crezca en altura */
+  max-height: 90vh;
+  overflow-y: auto; /* Scroll interno si es muy alto */
 }
 
 /* Tarjeta expandida cuando hay resultados */
 .sentiment-analysis-card.expanded-card {
-  margin-top: 1rem;
-  max-width: 700px; /* Ancho mayor para resultados */
-  
-}
-
-/* Ajustar métricas para pantallas pequeñas */
-@media (max-width: 768px) {
-  .sentiment-analysis-card.expanded-card {
-    max-width: 90%;
-    padding: 1.5rem;
-  }
-
-  .metrics-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* Evitar desbordamiento en móviles */
-.sentiment-analysis-container {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
+  max-width: 800px;
+  /* NO usar margin-top que saque del viewport */
+  /* En su lugar, mantener centrado */
 }
 
 /* Título principal */
@@ -60,13 +54,6 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.input-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-}
-
 /* Textarea */
 .text-input {
   width: 100%;
@@ -79,6 +66,7 @@ body {
   background-color: #f9f9f9;
   transition: border-color 0.3s ease;
   color: #000;
+  box-sizing: border-box;
 }
 
 .text-input:focus {
@@ -105,7 +93,7 @@ body {
   cursor: not-allowed;
 }
 
-.analyze-button:hover {
+.analyze-button:hover:not(:disabled) {
   background: linear-gradient(to right, #240b36, #c31432);
 }
 
@@ -120,54 +108,120 @@ body {
   font-size: 0.95rem;
 }
 
+/* Sección de resultados dentro de la misma tarjeta */
 .results-section {
-  max-height: 70vh;
-  overflow-y: auto;
+  margin-top: 1.5rem;
+  /* Animación de aparición */
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .result-card {
   background-color: #f9f9f9;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 0.75rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e0e0e0;
 }
 
 .sentiment-label {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .metric-item {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   background-color: #ffffff;
   border: 1px solid #ddd;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .metric-label {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #666;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .metric-value {
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #212121;
-  margin-top: 0.25rem;
 }
 
 .analysis-explanation {
   text-align: left;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #333;
+  background-color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+}
+
+.analysis-explanation h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #212121;
+  font-size: 1.1rem;
+}
+
+.analysis-explanation ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.analysis-explanation li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sentiment-analysis-container {
+    padding: 10px;
+  }
+  
+  .sentiment-analysis-card {
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+  
+  .sentiment-analysis-card.expanded-card {
+    max-width: 95%;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .sentiment-label {
+    font-size: 1.5rem;
+  }
+}
+
+/* Asegurar que no haya scroll horizontal */
+* {
+  box-sizing: border-box;
 }
